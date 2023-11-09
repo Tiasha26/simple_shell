@@ -1,97 +1,73 @@
 #include "shell.h"
-
 /**
- * _myexit - exits the shell
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: exits with a given exit status
- *         (0) if info.argv[0] != "exit"
+ * handle_builtin - Handle built-in shell commands.
+ * @args: Array of command arguments.
+ * Return: 1 if the command is a built-in and was handled, 0 otherwise.
  */
-int _myexit(info_t *info)
+int handle_builtin(char **args)
 {
-	int exitcheck;
+	if (strcmp(args[0], "exit") == 0)
+	{
+		int status = (args[1] != NULL) ? atoi(args[1]) : 0;
 
-	if (info->argv[1])  /* If there is an exit arguement */
+		exit(status);
+		return (1);
+	} else if (strcmp(args[0], "env") == 0)
 	{
-		exitcheck = _erratoi(info->argv[1]);
-		if (exitcheck == -1)
-		{
-			info->status = 2;
-			print_error(info, "Illegal number: ");
-			_eputs(info->argv[1]);
-			_eputchar('\n');
-			return (1);
-		}
-		info->err_num = _erratoi(info->argv[1]);
-		return (-2);
-	}
-	info->err_num = -1;
-	return (-2);
-}
-
-/**
- * _mycd - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
- */
-int _mycd(info_t *info)
-{
-	char *s, *dir, buffer[1024];
-	int chdir_ret;
-
-	s = getcwd(buffer, 1024);
-	if (!s)
-		_puts("TODO: >>getcwd failure emsg here<<\n");
-	if (!info->argv[1])
+		env_shell();
+		return (1);
+	} else if (strcmp(args[0], "setenv") == 0)
 	{
-		dir = _getenv(info, "HOME=");
-		if (!dir)
-			chdir_ret = /* TODO: what should this be? */
-				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
-		else
-			chdir_ret = chdir(dir);
-	}
-	else if (_strcmp(info->argv[1], "-") == 0)
+		return (handle_setenv(args));
+	} else if (strcmp(args[0], "unsetenv") == 0)
 	{
-		if (!_getenv(info, "OLDPWD="))
-		{
-			_puts(s);
-			_putchar('\n');
-			return (1);
-		}
-		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		chdir_ret = /* TODO: what should this be? */
-			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
-	}
-	else
-		chdir_ret = chdir(info->argv[1]);
-	if (chdir_ret == -1)
+		return (handle_unsetenv(args));
+	} else if (strcmp(args[0], "cd") == 0)
 	{
-		print_error(info, "can't cd to ");
-		_eputs(info->argv[1]), _eputchar('\n');
-	}
-	else
-	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
+		cd_shell(args[1]);
+		return (1);
 	}
 	return (0);
 }
+/**
+ * handle_setenv - Handle the 'setenv' command.
+ * @args: Array of command arguments.
+ * Return: 1 if the command is handled, 0 otherwise.
+ */
+int handle_setenv(char **args)
+{
+	if (args[1] != NULL && args[2] != NULL)
+	{
+		char *setenv_args[3];
+
+		setenv_args[0] = args[0];
+		setenv_args[1] = args[1];
+		setenv_args[2] = args[2];
+		setenv_shell(setenv_args);
+	} else
+	{
+		my_print("Usage: setenv VARIABLE VALUE\n");
+	}
+	return (1);
+}
 
 /**
- * _myhelp - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
+ * handle_unsetenv - Handle the 'unsetenv' command.
+ * @args: Array of command arguments.
+ * Return: 1 if the command is handled, 0 otherwise.
  */
-int _myhelp(info_t *info)
+int handle_unsetenv(char **args)
 {
-	char **arg_array;
+	if (args[1] != NULL)
+	{
+		char *unsetenv_args[2];
 
-	arg_array = info->argv;
-	_puts("help call works. Function not yet implemented \n");
-	if (0)
-		_puts(*arg_array); /* temp att_unused workaround */
-	return (0);
+		unsetenv_args[0] = args[0];
+		unsetenv_args[1] = args[1];
+		unsetenv_shell(unsetenv_args);
+	} else
+	{
+		my_print("Usage: unsetenv VARIABLE\n");
+	}
+	return (1);
 }
