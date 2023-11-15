@@ -30,9 +30,9 @@ void cd_shell(char *path)
 	{
 		char *setenv_args[3];
 
-		setenv_args[0] = "PWD";
-		setenv_args[1] = cwd;
-		setenv_args[2] = 0;
+		setenv_args[1] = "PWD";
+		setenv_args[2] = cwd;
+		setenv_args[0] = 0;
 		setenv_shell(setenv_args);
 	}
 	free(cwd);

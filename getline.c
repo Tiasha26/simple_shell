@@ -12,6 +12,7 @@ char *read_file(FILE *file)
 	size_t size = 0;
 	char *input = NULL;
 
+	fseek(file, 0, SEEK_SET);
 	while (getline(&line, &len, file) != -1)
 	{
 		size_t line_len = strlen(line);

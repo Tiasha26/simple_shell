@@ -11,15 +11,19 @@
 #include <fcntl.h>
 #include <limits.h>
 
-void set_alias(char *name, char *value);
-char *get_alias(char *name);
+void set_alias(const char *name, const char *value);
+char *get_alias(const char *name);
 void display_aliases(void);
 void clear_aliases(void);
-void handle_alias(char *input);
+void handle_alias(const char *args[]);
+
+void remove_comments(char *input);
+
+int replace_variables(char *input);
 
 extern char **environ;
 
-void mydisplay_prompt(void);
+void mydisplay_prompt(const char * prompt_name);
 void my_print(const char *string);
 void read_command(char *input, size_t size);
 void execute_command(const char *input);

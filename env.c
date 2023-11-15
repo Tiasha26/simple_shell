@@ -46,8 +46,7 @@ void env_shell(void)
 
 	while (*env)
 	{
-		my_print(*env);
+		my_print(*(env++));
 		my_print("\n");
-		env++;
 	}
 }
