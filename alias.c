@@ -1,9 +1,9 @@
 #include "shell.h"
 #include "alias.h"
 /**
- * @brief Set an alias.
- * @param name The alias name.
- * @param value The alias value.
+ * set_alias -  Set an alias.
+ * @name: The alias name.
+ * @value: The alias value.
  */
 void set_alias(const char *name, const char *value)
 {
@@ -20,9 +20,9 @@ void set_alias(const char *name, const char *value)
 }
 
 /**
- * @brief Get the value of an alias by its name.
- * @param name The alias name to look up.
- * @return The alias value if found, or NULL if not found.
+ * get_alias -  Get the value of an alias by its name.
+ * @name: The alias name to look up.
+ * Return: The alias value if found, or NULL if not found.
  */
 char *get_alias(const char *name)
 {
@@ -39,7 +39,7 @@ char *get_alias(const char *name)
 }
 
 /**
- * @brief Display all defined aliases.
+ * display_aliases -  Display all defined aliases.
  */
 void display_aliases(void)
 {
@@ -55,7 +55,7 @@ void display_aliases(void)
 }
 
 /**
- * @brief all defined aliases and free memory.
+ * clear_aliases - all defined aliases and free memory.
  */
 void clear_aliases(void)
 {

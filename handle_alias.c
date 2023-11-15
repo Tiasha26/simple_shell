@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
  * handle_alias - Handle alias related operations.
- * @input: The input command.
+ * @args: The input command.
  */
 void handle_alias(const char *args[])
 {
@@ -33,7 +33,8 @@ void handle_alias(const char *args[])
 				my_print("\n");
 			}
 		}
-	} else {
+	} else
+	{
 		display_aliases();
 	}
 }

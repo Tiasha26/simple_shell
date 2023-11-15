@@ -1,6 +1,4 @@
-
 #include "shell.h"
-
 /**
  * execute_command - Execute a command.
  * @input: The command to execute.
@@ -26,29 +24,28 @@ void execute_command(const char *input)
 			tkn = strtok(NULL, " ");
 		}
 		args[arg_c] = NULL;
-
-		// the child run the command
-		if (child_pid == 0) {
-
-			// check if there's an alias
+		if (child_pid == 0) /** the child  run the command */
+		{	/** check if there's an alias */
 			char *alias = NULL;
-			if((alias = get_alias(args[0])) != NULL)
-				args[0] = alias;
 
-			// try to run the command with alias replaced
-			if(handle_builtin(args) == 0)
-				if(execvp(args[0], args) == -1)
+			alias = get_alias(args[0]);
+			if (alias != NULL)
+				args[0] = alias;
+			if (handle_builtin(args) == 0)
+				if (execvp(args[0], args) == -1)
 					perror("Error when executing command");
 			exit(0);
-		} else {
-			if(strcmp(args[0], "exit") == 0)
+		} else
+		{
+			if (strcmp(args[0], "exit") == 0)
+			{
 				exit(EXIT_SUCCESS);
-			else if(strcmp(args[0], "cd") == 0)
+			} else if (strcmp(args[0], "cd") == 0)
 				cd_shell(args[1]);
-			else if(strcmp(args[0], "alias") == 0) {
+			else if (strcmp(args[0], "alias") == 0)
+			{
 				handle_alias((const char **)args);
 			}
-
 			wait(NULL);
 		}
 	}

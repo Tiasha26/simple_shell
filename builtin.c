@@ -9,6 +9,7 @@ int handle_builtin(char **args)
 	if (strcmp(args[0], "exit") == 0)
 	{
 		int status = (args[1] != NULL) ? atoi(args[1]) : 0;
+
 		exit(status);
 		return (1);
 	} else if (strcmp(args[0], "env") == 0)

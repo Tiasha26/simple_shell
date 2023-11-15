@@ -23,7 +23,7 @@ int replace_variables(char *input);
 
 extern char **environ;
 
-void mydisplay_prompt(const char * prompt_name);
+void mydisplay_prompt(const char *prompt_name);
 void my_print(const char *string);
 void read_command(char *input, size_t size);
 void execute_command(const char *input);
