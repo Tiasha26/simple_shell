@@ -27,6 +27,9 @@ void mydisplay_prompt(const char *prompt_name);
 void my_print(const char *string);
 void read_command(char *input, size_t size);
 void execute_command(const char *input);
+void execute_child_process(char **args);
+void handle_builtin_execution(char **args);
+
 void env_shell(void);
 int setenv_shell(char **args);
 int unsetenv_shell(char **args);
